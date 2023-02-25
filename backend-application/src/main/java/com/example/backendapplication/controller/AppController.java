@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Queue;
 
@@ -61,25 +62,32 @@ public class AppController {
         firstWaypoint.setDeliveryStatus(DeliveryStatus.COMPLETED);
         waypointService.updateWaypoint(firstWaypoint);
         driverAppService.removeFirstWaypoint(currentQueue);
-        List<Waypoint> updatedList = consigneeAppService.queueToList(currentQueue);
-        if(updatedList.size() >= 5) {
-            consigneeAppStartup(updatedList.get(4));
-        }else{
-            int size = updatedList.size();
-            consigneeAppStartup(updatedList.get(size - 1));
-        }
 
         return currentQueue;
     }
 
     @GetMapping("driverApp/convertToQueue")
-    public Queue<Waypoint> convertToQueue(@RequestBody  List<Waypoint> initialList) {
+    public Queue<Waypoint> convertToQueue(List<Waypoint> initialList) {
         return driverAppService.listToQueue(initialList);
     }
 
     // Consignee
     @GetMapping("consigneeApp/consigneeAppStartup")
-    public List<Waypoint> consigneeAppStartup(Waypoint newestWaypoint) {
+    public List<Waypoint> consigneeAppStartup() {
+//        List<Waypoint> updatedList = consigneeAppService.queueToList(currentQueue);
+//
+        List<Waypoint> waypointList = waypointService.displayWaypointList();
+        waypointList.removeIf(waypoint -> waypoint.isHasVisited() == true);
+        waypointList.sort(Comparator.comparing(Waypoint::getConsigneeAddress));
+
+        Waypoint newestWaypoint = null;
+        if (waypointList.size() >= 5) {
+            newestWaypoint = waypointList.get(4);
+        } else {
+            int size = waypointList.size();
+            newestWaypoint = waypointList.get(size - 1);
+        }
+
         return consigneeAppService.getRelativeWaypoints(newestWaypoint);
     }
 
