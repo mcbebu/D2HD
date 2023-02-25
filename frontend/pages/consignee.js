@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { AiTwotoneCalendar } from "react-icons/ai";
 import dynamic from "next/dynamic";
 import { defineStyle, defineStyleConfig, Button } from "@chakra-ui/react";
-import { Flex, Spacer, Text, Heading, Divider, Image } from "@chakra-ui/react";
+import { Flex, Spacer, Text, Heading, Divider, Image, Icon } from "@chakra-ui/react";
 const Navbar = dynamic(() => import("../client/Navbar"));
 const MARGIN = "11vh";
 const xl = defineStyle({
@@ -33,7 +34,7 @@ const Consignee = () => {
   );
 };
 const Home = () => {
-  const photos = [run_2.src, run_3.src, run_4.src, run_5.src, run_6.src];
+  const photos = [ run_2.src, run_3.src, run_4.src, run_5.src, run_6.src ];
   // const [delivery, setDelivery] = useState([]);
   // useEffect(() => {
   //   DeliveryService.getUpdatedDeliveryList().then((res) => {
@@ -77,7 +78,11 @@ const Home = () => {
             Estimated Delivery
           </Heading>
           <Divider colorScheme="" />
-          <Text fontWeight="bold">26 Feb 2021, by 10:00 pm</Text>
+          <Flex alignItems="center" pl='10' pt='4' pb='5'>
+            <Icon as={AiTwotoneCalendar} mr={2} />
+            <Text fontWeight="bold">15 Feb 2023 to 24 Feb 2023, by 10:00 pm</Text>
+          </Flex>
+          {/* <Text fontWeight="bold" pl='10' pt='3' pb='5'><AiTwotoneCalendar/>15 Feb 2023 to 24 Feb 2023, by 10:00 pm</Text> */}
           <Heading color="#000" padding="2rem">
             Tracking History
           </Heading>
@@ -122,7 +127,34 @@ const Tracking = () => {
             Tracking History
           </Heading>
           <Divider colorScheme="" />
-          <Text fontWeight="bold">26 Feb 2021, by 10:00 pm</Text>
+          <Flex alignItems="center" pl='10' pt='4' pb='5'>
+            <Icon mr={2} />
+            <Flex flexDirection='column'>
+              <Text fontWeight="bold">Successfully delivered</Text>
+              <Text fontWeight="bold" textColor='gray.400' fontSize='xs' pt='1'>15 Feb 23, 9:53 am</Text>
+            </Flex>
+          </Flex>
+          <Flex alignItems="center" pl='10' pt='4' pb='5'>
+            <Icon mr={2} />
+            <Flex flexDirection='column'>
+              <Text fontWeight="bold">Successfully delivered</Text>
+              <Text fontWeight="bold" textColor='gray.400' fontSize='xs' pt='1'>4 Feb 23, 12:00 pm</Text>
+            </Flex>
+          </Flex>
+          <Flex alignItems="center" pl='10' pt='4' pb='5'>
+            <Icon mr={2} />
+            <Flex flexDirection='column'>
+              <Text fontWeight="bold">Parcel is being processed at Ninja Van warehouse - Ninja Van Sorting Facility</Text>
+              <Text fontWeight="bold" textColor='gray.400' fontSize='xs' pt='1'>4 Feb 23, 12:00 pm</Text>
+            </Flex>
+          </Flex>
+          <Flex alignItems="center" pl='10' pt='4' pb='5'>
+            <Icon mr={2} />
+            <Flex flexDirection='column'>
+              <Text fontWeight="bold">Order created</Text>
+              <Text fontWeight="bold" textColor='gray.400' fontSize='xs' pt='1'>3 Feb 23, 11:53 pm</Text>
+            </Flex>
+          </Flex>
         </Flex>
       </Flex>
     </Flex>
