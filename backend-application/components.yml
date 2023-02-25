@@ -2,18 +2,23 @@
 Waypoint:
   type: object
   required:
-    - address
-    - has_visited
-    - has_attempted
+    - w_con_address
+    - w_con_full_name
+    - w_has_visited
+    - w_has_attempted
   properties:
-    address:
-      description: String of the user's address
+    w_con_address:
+      description: String of the consignee's address
       type: String
       example: '3 Kay Siang Road'
-    has_visited:
+    w_con_full_name:
+      description: Name of consignee
+      type: String
+      example: 'John'
+    w_has_visited:
       description: Boolean if driver has visited the waypoint (delivered/failed)
       type: Boolean
-    has_attempted:
+    w_has_attempted:
       description: Boolean if the driver has attempted t
 
 Consignee:

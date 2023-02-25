@@ -11,7 +11,10 @@ import jakarta.persistence.Table;
 public class Waypoint {
     @Id
     @Column(name = "w_address")
-    private String address;
+    private String consigneeAddress;
+
+    @Column(name = "w_con_full_name")
+    private String consigneeName;
 
     @Column(name = "w_has_visited")
     private boolean hasVisited;
@@ -22,18 +25,27 @@ public class Waypoint {
     public Waypoint() {
     }
 
-    public Waypoint(String address, boolean hasVisited, DeliveryStatus deliveryStatus) {
-        this.address = address;
+    public Waypoint(String consigneeAddress, String consigneeName, boolean hasVisited, DeliveryStatus deliveryStatus) {
+        this.consigneeAddress = consigneeAddress;
+        this.consigneeName = consigneeName;
         this.hasVisited = hasVisited;
         this.deliveryStatus = deliveryStatus;
     }
 
-    public String getAddress() {
-        return address;
+    public String getConsigneeAddress() {
+        return consigneeAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setConsigneeAddress(String consigneeAddress) {
+        this.consigneeAddress = consigneeAddress;
+    }
+
+    public String getConsigneeName() {
+        return consigneeName;
+    }
+
+    public void setConsigneeName(String consigneeName) {
+        this.consigneeName = consigneeName;
     }
 
     public boolean isHasVisited() {

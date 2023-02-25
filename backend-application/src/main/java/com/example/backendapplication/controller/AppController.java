@@ -20,24 +20,31 @@ public class AppController {
     @Autowired
     private DriverAppServiceImpl driverAppService;
     List<Waypoint> waypointList = Arrays.asList(
-            new Waypoint("Address A", false, DeliveryStatus.PENDING),
-            new Waypoint("Address B", false, DeliveryStatus.PENDING),
-            new Waypoint("Address C", false, DeliveryStatus.PENDING),
-            new Waypoint("Address D", false, DeliveryStatus.PENDING),
-            new Waypoint("Address E", false, DeliveryStatus.PENDING));
+            new Waypoint("Address A", "Harry Potter", false, DeliveryStatus.PENDING),
+            new Waypoint("Address B", "Hermione Granger", false, DeliveryStatus.PENDING),
+            new Waypoint("Address C", "Ron Weasley", false, DeliveryStatus.PENDING),
+            new Waypoint("Address D", "Cedric Diggory", false, DeliveryStatus.PENDING),
+            new Waypoint("Address E", "Severus Snape", false, DeliveryStatus.PENDING),
+            new Waypoint("Address F", "Albus Dumbledore", false, DeliveryStatus.PENDING),
+            new Waypoint("Address G", "Draco Malfoy", false, DeliveryStatus.PENDING),
+            new Waypoint("Address H", "Neville Longbottom", false, DeliveryStatus.PENDING),
+            new Waypoint("Address I", "Peter Pettigrew", false, DeliveryStatus.PENDING),
+            new Waypoint("Address J", "Lucius Malfoy", false, DeliveryStatus.PENDING));
+
 
     // Driver
+
     @GetMapping("/convertToQueue")
     public Queue<Waypoint> convertToQueue(List<Waypoint> initialList) {
-        return driverAppService.initialDeliveryQueue(initialList);
+        return driverAppService.initialDeliveryQueue(waypointList);
     }
 
     /**
      * Api that will be called to pop the first item off the queue
      * Used when "completed" or "fail" is pressed in the driver app
+     *
      * @param currentList
-     * @return
-     * The updated delivery queue with the first element removed
+     * @return The updated delivery queue with the first element removed
      */
     @GetMapping("/updateQueue")
     public Queue<Waypoint> updateQueue(Queue<Waypoint> currentList) {

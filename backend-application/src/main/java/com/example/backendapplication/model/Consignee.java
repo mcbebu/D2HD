@@ -22,12 +22,12 @@ public class Consignee {
     private String address;
 
     @Column(name = "c_postal_code")
-    private Integer postalCode = null;
+    private String postalCode = "";
 
     public Consignee() {
     }
 
-    public Consignee(String userName, String password, String name, String address, Integer postalCode) {
+    public Consignee(String userName, String password, String name, String address, String postalCode) {
         this.userName = userName;
         this.password = password;
         this.name = name;
@@ -67,11 +67,11 @@ public class Consignee {
         this.address = address;
     }
 
-    public Integer getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(Integer postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 }
