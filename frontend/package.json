@@ -4,6 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "npx next build",
+    "start": "npx next start",
+    "lint": "npx next lint",
+    "dev": "npx next dev",
+    "clean": "sudo rm -rf .next && sudo rm -rf node_modules",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
