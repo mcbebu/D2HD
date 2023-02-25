@@ -1,0 +1,18 @@
+# Common
+Waypoint:
+  type: object
+  required:
+    - address
+    - is_completed
+  properties:
+    address:
+      description: String of the user's address
+      type: String
+      example: '3 Kay Siang Road'
+    is_completed:
+      description: Boolean if delivery is completed (delivered/failed)
+      type: Boolean
+
+# Consignee
+
+# Driver
