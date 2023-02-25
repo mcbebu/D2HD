@@ -14,7 +14,7 @@ import java.util.Queue;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/driverApp")
+@RequestMapping("/api")
 public class AppController {
     @Autowired
     private WaypointServiceImpl waypointService;
@@ -39,7 +39,7 @@ public class AppController {
 
 
     // Driver
-    @GetMapping("/driverStartUp")
+    @GetMapping("driverApp/driverStartUp")
     public Queue<Waypoint> driverStartUp() {
         driverAppService.saveWaypoints(waypointList);
         return driverAppService.listToQueue(waypointList);
@@ -52,7 +52,7 @@ public class AppController {
      * @param currentList
      * @return The updated delivery queue with the first element removed
      */
-    @PostMapping("/updateQueue")
+    @PostMapping("driverApp/updateQueue")
     public Queue<Waypoint> updateQueue(@RequestBody List<Waypoint> currentList) {
         Queue<Waypoint> currentQueue = driverAppService.listToQueue(currentList);
 
@@ -72,13 +72,13 @@ public class AppController {
         return currentQueue;
     }
 
-    @GetMapping("/convertToQueue")
+    @GetMapping("driverApp/convertToQueue")
     public Queue<Waypoint> convertToQueue(@RequestBody  List<Waypoint> initialList) {
         return driverAppService.listToQueue(initialList);
     }
 
     // Consignee
-    @GetMapping("/consigneeAppStartup")
+    @GetMapping("consigneeApp/consigneeAppStartup")
     public List<Waypoint> consigneeAppStartup(Waypoint newestWaypoint) {
         return consigneeAppService.getRelativeWaypoints(newestWaypoint);
     }
