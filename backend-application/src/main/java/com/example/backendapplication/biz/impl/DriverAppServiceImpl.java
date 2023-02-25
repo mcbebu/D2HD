@@ -25,7 +25,7 @@ public class DriverAppServiceImpl implements DriverAppService {
 
     // performs the popping
     @Override
-    public Queue<Waypoint> updatedDeliveryQueue(Queue<Waypoint> initialQueue) {
+    public Queue<Waypoint> removeFirstWaypoint(Queue<Waypoint> initialQueue) {
         initialQueue.remove();
         return initialQueue;
     }

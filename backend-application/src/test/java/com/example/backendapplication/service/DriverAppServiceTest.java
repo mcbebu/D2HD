@@ -49,7 +49,7 @@ public class DriverAppServiceTest {
         Queue<Waypoint> initialQueue = driverAppService.listToQueue(waypointList);
         // driver presses accept or fail (to be implemented)
         // call updatedDeliveryQueue
-        Queue<Waypoint> updatedQueue = driverAppService.updatedDeliveryQueue(initialQueue);
+        Queue<Waypoint> updatedQueue = driverAppService.removeFirstWaypoint(initialQueue);
 
         // test size of updatedDeliveryQueue < initialQueue by 1
         initialQueue.forEach(waypoint -> {
@@ -75,6 +75,7 @@ public class DriverAppServiceTest {
         waypointService.clearWaypointList();
 
         List<Waypoint> savedWaypoints = driverAppService.saveWaypoints(waypointList);
+
         List<String> expectedAdresses = new ArrayList<>();
         waypointList.forEach(waypoint -> expectedAdresses.add(waypoint.getConsigneeAddress()));
 
