@@ -8,10 +8,7 @@ import com.example.backendapplication.model.Waypoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -74,21 +71,26 @@ public class AppController {
     // Consignee
     @GetMapping("consigneeApp/consigneeAppStartup")
     public List<Waypoint> consigneeAppStartup() {
-//        List<Waypoint> updatedList = consigneeAppService.queueToList(currentQueue);
-//
+        Waypoint homeWaypoint = waypointService.findWaypoint("Address G");
+
         List<Waypoint> waypointList = waypointService.displayWaypointList();
-        waypointList.removeIf(waypoint -> waypoint.isHasVisited() == true);
         waypointList.sort(Comparator.comparing(Waypoint::getConsigneeAddress));
 
-        Waypoint newestWaypoint = null;
-        if (waypointList.size() >= 5) {
-            newestWaypoint = waypointList.get(4);
-        } else {
-            int size = waypointList.size();
-            newestWaypoint = waypointList.get(size - 1);
+        int homeIdx = 0;
+        for(int i = 0; i < waypointList.size(); i++) {
+            Waypoint currentWaypoint = waypointList.get(i);
+            if(currentWaypoint.getConsigneeAddress().equals(homeWaypoint.getConsigneeAddress())){
+                homeIdx = i;
+            }
         }
 
-        return consigneeAppService.getRelativeWaypoints(newestWaypoint);
+        int startIdx = homeIdx - 4;
+        List<Waypoint> clusterList = new ArrayList<>();
+        for(int i = startIdx; i <= homeIdx; i++) {
+            clusterList.add(waypointList.get(i));
+        }
+
+        return clusterList;
     }
 
 }
