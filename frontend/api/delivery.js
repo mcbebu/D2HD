@@ -16,7 +16,16 @@ class DeliveryService {
   }
   getWayPointList() {
     try {
-      return axios.get("http://localhost:8080/api/driverApp/convertToQueue");
+      return axios.get("http://localhost:8080/api/driverApp/driverStartUp");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  clusterUpdate() {
+    try {
+      return axios.get(
+        "http://localhost:8080/api/consigneeApp/consigneeAppStartup"
+      );
     } catch (error) {
       console.log(error);
     }
@@ -24,7 +33,8 @@ class DeliveryService {
   async updateWayPointList(listInput) {
     try {
       return await axios.post(
-        "http://localhost:8080/api/driverApp/updateQueue", listInput
+        "http://localhost:8080/api/driverApp/updateQueue",
+        listInput
       );
     } catch (error) {
       console.log(error);

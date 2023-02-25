@@ -8,19 +8,20 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import {
-  MdReorder,
-} from "react-icons/md";
-import { RxCrossCircled } from "react-icons/rx";
+import { MdReorder } from "react-icons/md";
 import { React, useState, useEffect } from "react";
-const Navbar = dynamic(() => import("../client/Navbar"));
-const MARGIN = "11vh";
+const Navbar = dynamic(() => import("../driver/Navbar"));
+const MARGIN = "8vh";
 import DeliveryService from "../api/delivery";
+export let tempconsigneeList = [];
 const Driver = () => {
   const [consigneeList, setConsigneeList] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+
   useEffect(() => {
     DeliveryService.getWayPointList().then((res) => {
       setConsigneeList(res.data);
+      tempconsigneeList = consigneeList;
     });
   }, []);
   const first = consigneeList[0];
@@ -31,8 +32,13 @@ const Driver = () => {
         {consigneeList.length == 0 ? (
           <Flex className="Content Wrapper" direction="column" px="150px">
             <Flex marginTop={MARGIN} justifyContent="center">
-              <Heading color="cyan" p="20px" fontSize="2.5rem">
-                No Deliveries remaining!
+              <Heading
+                color="#FFF"
+                p="20px"
+                fontSize="2.5rem"
+                textAlign="center"
+              >
+                Amazing job! No more deliveries remaining. See you tomorrow 😉
               </Heading>
             </Flex>
           </Flex>
@@ -66,6 +72,8 @@ const Driver = () => {
                           setConsigneeList(result.data);
                         }
                       );
+                      DeliveryService.clusterUpdate();
+                      setRefresh(true);
                     }}
                   >
                     Completed
@@ -75,7 +83,13 @@ const Driver = () => {
                   <Button
                     colorScheme="red"
                     onClick={() => {
-                      DeliveryService.updateWayPointList(consigneeList);
+                      DeliveryService.updateWayPointList(consigneeList).then(
+                        (result) => {
+                          setConsigneeList(result.data);
+                        }
+                      );
+                      DeliveryService.clusterUpdate();
+                      setRefresh(true);
                     }}
                   >
                     Failed

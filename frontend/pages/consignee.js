@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { defineStyle, defineStyleConfig, Button, Flex, Spacer, Text, Heading, Divider, Image, Icon } from "@chakra-ui/react";
-import { AiTwotoneCalendar, AiOutlineSmile } from "react-icons/ai";
+import {
+  defineStyle,
+  defineStyleConfig,
+  Button,
+  Flex,
+  Spacer,
+  Text,
+  Heading,
+  Divider,
+  Image,
+  Icon,
+} from "@chakra-ui/react";
+import { AiTwotoneCalendar, AiOutlineHistory } from "react-icons/ai";
 const Navbar = dynamic(() => import("../client/Navbar"));
 const MARGIN = "11vh";
 const xl = defineStyle({
@@ -15,12 +26,6 @@ import run_4 from "../public/ninja_run/4.png";
 import run_5 from "../public/ninja_run/5.png";
 import run_6 from "../public/ninja_run/6.png";
 import DeliveryService from "../api/delivery";
-
-// const photoList = [false, false, true, false, false];
-// const [count, setCount] = useState(0);
-
-// console.log(photo)
-
 const Consignee = () => {
   return (
     <Flex className="Layout Parent" id="top" minWidth="100%" direction="column">
@@ -33,21 +38,93 @@ const Consignee = () => {
   );
 };
 const Home = () => {
-  const photos = [ run_2.src, run_3.src, run_4.src, run_5.src, run_6.src ];
+  const photos = [run_2.src, run_3.src, run_4.src, run_5.src, run_6.src];
   const [delivery, setDelivery] = useState([]);
+  const time = 50;
   useEffect(() => {
-    DeliveryService.getUpdatedDeliveryList().then((res) => {
+    DeliveryService.clusterUpdate().then((res) => {
       setDelivery(res.data);
     });
+    console.log(delivery);
+    getTrackingImage();
   }, []);
-  console.log(delivery);
+
+  //A B (me)
+  // T F
+  // A B C (me)
+  // T T F
+  //A B C D (me)
+  //T T F F
+  // const delivery = [
+  //   { hasVisited: true },
+  //   { hasVisited: true },
+  //   { hasVisited: true },
+  //   { hasVisited: true },
+  //   { hasVisited: true },
+  // ];
+  console.log(delivery.length);
   const getTrackingImage = () => {
-    for (let i = delivery.length - 1; i > 0; i--) {
-      if (delivery[i].is_completed === true) {
-        return <Image src={photos[i]} />;
+    //check for one boolean
+    if (delivery.length === 1) {
+      if (delivery[0].hasVisited === false) {
+        return <Image src={photos[3]} w="550px" alignSelf="center" />;
+      }
+      return <Image src={photos[4]} w="550px" alignSelf="center" />;
+    }
+    //check for one boolean
+    else if (delivery.length === 2) {
+      if (delivery[0].hasVisited === false) {
+        return <Image src={photos[2]} w="550px" alignSelf="center" />;
+      } else if (delivery[1].hasVisited === false) {
+        return <Image src={photos[3]} w="550px" alignSelf="center" />;
+      }
+      return <Image src={photos[4]} w="550px" alignSelf="center" />;
+    }
+    //check for 3 boolean
+    else if (delivery.length === 3) {
+      if (delivery[0] === false) {
+        return <Image src={photos[1]} w="550px" alignSelf="center" />;
+      } else if (delivery[1].hasVisited === false) {
+        return <Image src={photos[2]} w="550px" alignSelf="center" />;
+      } else if (delivery[2].hasVisited === false) {
+        return <Image src={photos[3]} w="550px" alignSelf="center" />;
+      }
+      return <Image src={photos[4]} w="550px" alignSelf="center" />;
+    }
+    //check for 4 boolean
+    else if (delivery.length === 4) {
+      if (delivery[0].hasVisited === false) {
+        return <Image src={run_1.src} w="550px" alignSelf="center" />;
+      }
+      if (delivery[1] === false) {
+        return <Image src={photos[0]} w="550px" alignSelf="center" />;
+      } else if (delivery[2].hasVisited === false) {
+        return <Image src={photos[2]} w="550px" alignSelf="center" />;
+      } else if (delivery[3].hasVisited === false) {
+        return <Image src={photos[3]} w="550px" alignSelf="center" />;
+      } else if (delivery[4].hasVisited === false) {
+        return <Image src={photos[4]} w="550px" alignSelf="center" />;
+      }
+      return <Image src={photos[5]} w="550px" alignSelf="center" />;
+    }
+    //check for more than 4 boolean
+    else if (delivery.length > 4) {
+      if (delivery[0].hasVisited === false) {
+        return <Image src={run_1.src} w="550px" alignSelf="center" />;
+      } else if (delivery[1].hasVisited === false) {
+        return <Image src={photos[0]} w="550px" alignSelf="center" />;
+      } else if (delivery[2].hasVisited === false) {
+        return <Image src={photos[1]} w="550px" alignSelf="center" />;
+      } else if (delivery[3].hasVisited === false) {
+        return <Image src={photos[2]} w="550px" alignSelf="center" />;
+      } else if (delivery[4].hasVisited === false) {
+        return <Image src={photos[3]} w="550px" alignSelf="center" />;
+      } else {
+        return <Image src={photos[4]} w="550px" alignSelf="center" />;
       }
     }
-    return <Image src={run_1.src} />;
+    //Returns default image
+    return <Image src={run_1.src} w="550px" alignSelf="center" />;
   };
 
   return (
@@ -64,34 +141,51 @@ const Home = () => {
         className="Content Parent"
         alignItems="center"
       >
+        <Heading marginY="5vh" color="#000" px="2rem">
+          Draco Malfoy
+        </Heading>
         <Flex
-          marginTop={MARGIN}
           w="50rem"
-          height="60rem"
           background="#fff"
           borderRadius="20px"
           flexDir="column"
           className="content"
         >
-          <Image maxWidth='auto' height='300px' alignSelf='center' src='https://raw.githubusercontent.com/mcbebu/D2HD/c89a3fd10178f1a389db68e5fb1b0dca4a3df2b5/frontend/public/tracking.png' alt='tracking img' />
-          <Heading color="#000" padding="2rem">
+          <Image
+            maxWidth="auto"
+            height="300px"
+            alignSelf="center"
+            src="https://raw.githubusercontent.com/mcbebu/D2HD/c89a3fd10178f1a389db68e5fb1b0dca4a3df2b5/frontend/public/tracking.png"
+            alt="tracking img"
+          />
+          <Heading color="#000" px="2rem">
             Estimated Delivery
           </Heading>
           <Divider colorScheme="" />
-          <Flex alignItems="center" pl='10' pt='4' pb='5'>
+          <Flex alignItems="center" pl="10" pt="4" pb="5" color="gray">
             <Icon as={AiTwotoneCalendar} mr={2} />
-            <Text fontWeight="bold">10 Feb 2023 to 24 Feb 2023, by 10:00 pm</Text>
+            <Text fontWeight="bold">
+              10 Feb 2023 to 24 Feb 2023, by 10:00 pm
+            </Text>
           </Flex>
-          <Text fontWeight="bold" pl='10' pt='3' pb='5'><AiTwotoneCalendar/>15 Feb 2023 to 24 Feb 2023, by 10:00 pm</Text>
-          <Heading color="#000" padding="2rem">
+          <Flex alignItems="center" pl="10" pt="4" pb="5" color="gray">
+            <Icon as={AiTwotoneCalendar} mr={2} />
+            <Text fontWeight="bold">
+              15 Feb 2023 to 24 Feb 2023, by 10:00 pm
+            </Text>
+          </Flex>
+
+          <Heading color="#000" px="2rem" py="1rem">
             Tracking History
           </Heading>
-          <Flex p="2rem" direction="column">
+          <Flex direction="column" justifyContent="center">
             {getTrackingImage()}
-          </Flex>
-          <Flex justify="center" flexDir="center">
-            <Text color="#000">Test</Text>
-            <Button colorScheme="face">Fail</Button>
+            <Flex alignItems="center" pl="10" pt="4" pb="5" color="gray">
+              <Icon as={AiTwotoneCalendar} mr={2} />
+              <Text fontWeight="bold">
+                Approximate time of arrival : {time} mins
+              </Text>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
@@ -122,39 +216,52 @@ const Tracking = () => {
           borderRadius="20px"
           flexDir="column"
           className="content"
-          pb='2'
-          mb='10'
+          pb="2"
+          mb="10"
         >
           <Heading color="#000" padding="2rem">
             Tracking History
           </Heading>
           <Divider colorScheme="" />
           {/* <Flex alignItems="center" pl='10' pt='4' pb='5'>
-            <Icon as={AiOutlineSmile} mr={2} />
+            <Icon as={AiOutlineHistory} mr={2} />
             <Flex flexDirection='column'>
               <Text fontWeight="bold">Successfully delivered</Text>
               <Text fontWeight="bold" textColor='gray.400' fontSize='xs' pt='1'>5 Feb 23, 9:53 pm</Text>
             </Flex>
           </Flex> */}
-          <Flex alignItems="center" pl='10' pt='4' pb='5'>
-            <Icon as={AiOutlineSmile} mr={2} />
-            <Flex flexDirection='column'>
-              <Text fontWeight="bold">Parcel is on its way</Text>
-              <Text fontWeight="bold" textColor='gray.400' fontSize='xs' pt='1'>5 Feb 23, 8:22 am</Text>
+          <Flex alignItems="center" pl="10" pt="4" pb="5">
+            <Icon as={AiOutlineHistory} color="gray.500" mr={2} />
+            <Flex flexDirection="column">
+              <Text fontWeight="bold" color="gray.500">
+                Parcel is on its way
+              </Text>
+              <Text fontWeight="bold" textColor="gray.500" fontSize="xs" pt="1">
+                5 Feb 23, 8:22 am
+              </Text>
             </Flex>
           </Flex>
-          <Flex alignItems="center" pl='10' pt='4' pb='5'>
-            <Icon as={AiOutlineSmile} mr={2} />
-            <Flex flexDirection='column'>
-              <Text fontWeight="bold">Parcel is being processed at Ninja Van warehouse - Ninja Van Sorting Facility</Text>
-              <Text fontWeight="bold" textColor='gray.400' fontSize='xs' pt='1'>4 Feb 23, 12:00 pm</Text>
+          <Flex alignItems="center" pl="10" pt="4" pb="5">
+            <Icon as={AiOutlineHistory} color="gray.500" mr={2} />
+            <Flex flexDirection="column">
+              <Text fontWeight="bold" color="gray.500">
+                Parcel is being processed at Ninja Van warehouse - Ninja Van
+                Sorting Facility
+              </Text>
+              <Text fontWeight="bold" textColor="gray.500" fontSize="xs" pt="1">
+                4 Feb 23, 12:00 pm
+              </Text>
             </Flex>
           </Flex>
-          <Flex alignItems="center" pl='10' pt='4' pb='5'>
-            <Icon as={AiOutlineSmile} mr={2} />
-            <Flex flexDirection='column'>
-              <Text fontWeight="bold">Order created</Text>
-              <Text fontWeight="bold" textColor='gray.400' fontSize='xs' pt='1'>3 Feb 23, 11:53 pm</Text>
+          <Flex alignItems="center" pl="10" pt="4" pb="5">
+            <Icon as={AiOutlineHistory} color="gray.500" mr={2} />
+            <Flex flexDirection="column">
+              <Text fontWeight="bold" color="gray.500">
+                Order created
+              </Text>
+              <Text fontWeight="bold" textColor="gray.500" fontSize="xs" pt="1">
+                3 Feb 23, 11:53 pm
+              </Text>
             </Flex>
           </Flex>
         </Flex>
