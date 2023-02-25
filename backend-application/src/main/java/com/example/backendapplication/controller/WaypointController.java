@@ -1,6 +1,7 @@
 package com.example.backendapplication.controller;
 
 import com.example.backendapplication.biz.impl.WaypointServiceImpl;
+import com.example.backendapplication.enumeration.DeliveryStatus;
 import com.example.backendapplication.model.Waypoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class WaypointController {
     @Autowired
     private WaypointServiceImpl waypointService;
-    Waypoint test = new Waypoint("3 Kay Siang Road", true);
+    Waypoint test = new Waypoint("3 Kay Siang Road", true, DeliveryStatus.PENDING);
 
     @GetMapping("/getWaypoint")
     public Waypoint getWaypoint() {
