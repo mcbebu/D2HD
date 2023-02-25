@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { defineStyle, defineStyleConfig } from "@chakra-ui/react";
+import { defineStyle, defineStyleConfig, Button } from "@chakra-ui/react";
 import { Flex, Spacer, Text, Heading, Divider, Image } from "@chakra-ui/react";
 const Navbar = dynamic(() => import("../client/Navbar"));
 const MARGIN = "11vh";
@@ -15,14 +15,10 @@ import run_4 from "../public/ninja_run/4.png";
 import run_5 from "../public/ninja_run/5.png";
 import run_6 from "../public/ninja_run/6.png";
 import DeliveryService from "../api/delivery";
-// const photos = [run_1, run_2, run_3, run_4, run_5, run_6];
+
 // const photoList = [false, false, true, false, false];
 // const [count, setCount] = useState(0);
-// for (let i = 0; i < photoList.length; i++) {
-//   if (photoList[i] === true) {
-//     setPhoto(photos[i]);
-//   }
-// }
+
 // console.log(photo)
 
 const Consignee = () => {
@@ -36,25 +32,22 @@ const Consignee = () => {
   );
 };
 const Home = () => {
-  const [address, setAddress] = useState([]);
+  const photos = [run_2.src, run_3.src, run_4.src, run_5.src, run_6.src];
+  const [delivery, setDelivery] = useState([]);
   useEffect(() => {
-    DeliveryService.getWayPoint().then((res) => {
-      console.log(res.data);
-      setAddress(res.data.address);
+    DeliveryService.getUpdatedDeliveryList().then((res) => {
+      setDelivery(res.data);
     });
   }, []);
-
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:8080/api/waypoint/getWaypoint")
-  //     .then((res) => {
-  //       console.log(res.data.address);
-  //       setAddress({ state: res.data });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
+  console.log(delivery);
+  const getTrackingImage = () => {
+    for (let i = delivery.length - 1; i > 0; i--) {
+      if (delivery[i].is_completed === true) {
+        return <Image src={photos[i]} />;
+      }
+    }
+    return <Image src={run_1.src} />;
+  };
 
   return (
     <Flex
@@ -82,17 +75,17 @@ const Home = () => {
           <Heading color="#000" padding="2rem">
             Estimated Delivery
           </Heading>
-          <Divider colorScheme="gray" variant="solid" />
+          <Divider colorScheme="" />
           <Text fontWeight="bold">26 Feb 2021, by 10:00 pm</Text>
           <Heading color="#000" padding="2rem">
             Tracking History
           </Heading>
-          <Flex p="2rem">
-            <Image src={run_1.src} />
+          <Flex p="2rem" direction="column">
+            {getTrackingImage()}
           </Flex>
-          <Flex justify="center">
+          <Flex justify="center" flexDir="center">
             <Text color="#000">Test</Text>
-            {address ? <Text color="#000">{address}</Text> : null}
+            <Button colorScheme="face">Fail</Button>
           </Flex>
         </Flex>
       </Flex>
