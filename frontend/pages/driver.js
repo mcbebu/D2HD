@@ -1,63 +1,118 @@
-import { Flex, ListItem, ListIcon, Button, List, Text } from "@chakra-ui/react";
-import { useState } from 'react';
-import { MdCheckCircle, MdCheckCircleOutline } from "react-icons/md";
+import {
+  Flex,
+  ListItem,
+  ListIcon,
+  Button,
+  List,
+  Text,
+  Heading,
+} from "@chakra-ui/react";
+import dynamic from "next/dynamic";
+import {
+  MdReorder,
+} from "react-icons/md";
 import { RxCrossCircled } from "react-icons/rx";
-import React from "react";
-
-const consigneeDetails = [
-  { address: 'tampines blk 0', is_completed: false },
-  { address: 'tampines blk 1', is_completed: false },
-  { address: 'tampines blk 2', is_completed: false },
-  { address: 'tampines blk 3', is_completed: false },
-  { address: 'tampines blk 4', is_completed: false },
-  { address: 'tampines blk 5', is_completed: false },
-];
-
-
+import { React, useState, useEffect } from "react";
+const Navbar = dynamic(() => import("../client/Navbar"));
+const MARGIN = "11vh";
+import DeliveryService from "../api/delivery";
 const Driver = () => {
-  const [ consignees, setConsignees ] = useState(consigneeDetails);
-
-  const handleAccepted = (index) => {
-    const updatedConsignees = [ ...consignees ];
-    updatedConsignees[ index ].is_completed = true;
-    setConsignees(updatedConsignees);
-  };
-
-  const handleRejected = (index) => {
-    const updatedConsignees = [ ...consignees ];
-    updatedConsignees[ index ].is_rejected = true;
-    setConsignees(updatedConsignees);
-  };
-
+  const [consigneeList, setConsigneeList] = useState([]);
+  useEffect(() => {
+    DeliveryService.getWayPointList().then((res) => {
+      setConsigneeList(res.data);
+    });
+  }, []);
+  const first = consigneeList[0];
   return (
-    <Flex minWidth="100%"
-      direction="column">
-      <Navbar />
-      <Flex className="Driver List" minWidth="100%" direction="column" alignSelf='center'>
-        <List spacing={3}>
-          {consigneeDetails.slice(0,5).map((consignee, index) => (
-            <ListItem key={index}>
-              <ListIcon
-              as={consignee.is_completed ? MdCheckCircle : consignee.is_rejected ? RxCrossCircled : MdCheckCircleOutline}
-                color={consignee.is_completed ? 'green.500' : (consignee.is_rejected  ? 'red.500' : 'gray.500')}
-                boxSize={10}
-              />
-              {consignee.address}
-              <Button
-                isDisabled={consignee.is_rejected || consignee.is_completed}
-                onClick={() => handleAccepted(index)}>
-                {consignee.is_completed ? "Accepted" : "Accept"}
-              </Button>
-              <Button
-                isDisabled={consignee.is_completed || consignee.is_rejected}
-                onClick={() => handleRejected(index)}>
-                {consignee.is_rejected ? "Rejected" : "Reject"}
-              </Button>
-            </ListItem>
-          ))}
-        </List>
+    <Flex className="Layout Parent" id="top" minWidth="100%" direction="column">
+      <Flex width="100%" flexDir="column" className="Content Parent">
+        <Navbar />
+        {consigneeList.length == 0 ? (
+          <Flex className="Content Wrapper" direction="column" px="150px">
+            <Flex marginTop={MARGIN} justifyContent="center">
+              <Heading color="cyan" p="20px" fontSize="2.5rem">
+                No Deliveries remaining!
+              </Heading>
+            </Flex>
+          </Flex>
+        ) : (
+          <Flex className="Content Wrapper" direction="column" px="150px">
+            <Flex marginTop={MARGIN} justifyContent="center">
+              <Heading color="#C31533" p="20px" fontSize="2.5rem">
+                Current deliveries:
+              </Heading>
+            </Flex>
+            <Flex
+              background="#fff"
+              w="450px"
+              borderRadius="20px"
+              flexDir="column"
+              className="content"
+              alignSelf="center"
+              direction="column"
+            >
+              <Flex flexDir="column" color="#000" p="25px">
+                <Heading fontSize="1.5rem">{first?.consigneeName}</Heading>
+                <Text>{first?.consigneeAddress}</Text>
+              </Flex>
+              <Flex justify="center" marginBottom="25px">
+                <Flex>
+                  <Button
+                    colorScheme="teal"
+                    onClick={() => {
+                      DeliveryService.updateWayPointList(consigneeList).then(
+                        (result) => {
+                          setConsigneeList(result.data);
+                        }
+                      );
+                    }}
+                  >
+                    Completed
+                  </Button>
+                </Flex>
+                <Flex px="20px">
+                  <Button
+                    colorScheme="red"
+                    onClick={() => {
+                      DeliveryService.updateWayPointList(consigneeList);
+                    }}
+                  >
+                    Failed
+                  </Button>
+                </Flex>
+              </Flex>
+            </Flex>
+            <Flex
+              className="Driver List"
+              direction="column"
+              alignItems="centers"
+              p="20px"
+            >
+              {consigneeList.slice(1, 5).map((consignee, index) => (
+                <Flex
+                  key={index}
+                  alignItems="center"
+                  w="300px"
+                  justifySelf="center"
+                  alignSelf="center"
+                >
+                  <Flex>
+                    <MdReorder />
+                  </Flex>
+                  <Flex direction="column" px="20px">
+                    <Text fontSize="20px" fontWeight="bold">
+                      {consignee?.consigneeName}
+                    </Text>
+                    <Text fontSize="15px">{consignee?.consigneeAddress}</Text>
+                  </Flex>
+                </Flex>
+              ))}
+            </Flex>
+          </Flex>
+        )}
       </Flex>
-    </Flex >
+    </Flex>
   );
 };
 export default Driver;

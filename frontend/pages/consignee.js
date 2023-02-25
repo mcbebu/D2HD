@@ -35,21 +35,21 @@ const Consignee = () => {
 };
 const Home = () => {
   const photos = [ run_2.src, run_3.src, run_4.src, run_5.src, run_6.src ];
-  // const [delivery, setDelivery] = useState([]);
-  // useEffect(() => {
-  //   DeliveryService.getUpdatedDeliveryList().then((res) => {
-  //     setDelivery(res.data);
-  //   });
-  // }, []);
-  // console.log(delivery);
-  // const getTrackingImage = () => {
-  //   for (let i = delivery.length - 1; i > 0; i--) {
-  //     if (delivery[i].is_completed === true) {
-  //       return <Image src={photos[i]} />;
-  //     }
-  //   }
-  //   return <Image src={run_1.src} />;
-  // };
+  const [delivery, setDelivery] = useState([]);
+  useEffect(() => {
+    DeliveryService.getWayPointList().then((res) => {
+      setDelivery(res.data);
+    });
+  }, []);
+  console.log(delivery);
+  const getTrackingImage = () => {
+    for (let i = delivery.length - 1; i > 0; i--) {
+      if (delivery[i].is_completed === true) {
+        return <Image src={photos[i]} />;
+      }
+    }
+    return <Image src={run_1.src} />;
+  };
 
   return (
     <Flex
@@ -82,12 +82,12 @@ const Home = () => {
             <Icon as={AiTwotoneCalendar} mr={2} />
             <Text fontWeight="bold">15 Feb 2023 to 24 Feb 2023, by 10:00 pm</Text>
           </Flex>
-          {/* <Text fontWeight="bold" pl='10' pt='3' pb='5'><AiTwotoneCalendar/>15 Feb 2023 to 24 Feb 2023, by 10:00 pm</Text> */}
+          <Text fontWeight="bold" pl='10' pt='3' pb='5'><AiTwotoneCalendar/>15 Feb 2023 to 24 Feb 2023, by 10:00 pm</Text>
           <Heading color="#000" padding="2rem">
             Tracking History
           </Heading>
           <Flex p="2rem" direction="column">
-            {/* {getTrackingImage()} */}
+            {getTrackingImage()}
           </Flex>
           <Flex justify="center" flexDir="center">
             <Text color="#000">Test</Text>

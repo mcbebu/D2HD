@@ -1,0 +1,7 @@
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px; /* replace with your desired width */
+  height: 100px; /* replace with your desired height */
+}
