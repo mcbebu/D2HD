@@ -22,4 +22,11 @@ public class WaypointServiceImpl implements WaypointService{
 
         return newWaypoint;
     }
+
+    @Override
+    public List<Waypoint> saveWaypointList(List<Waypoint> waypointList) {
+        repo.saveAll(waypointList);
+
+        return repo.findAll();
+    }
 }
