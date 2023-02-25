@@ -56,12 +56,19 @@ public class AppController {
     public Queue<Waypoint> updateQueue(@RequestBody List<Waypoint> currentList) {
         Queue<Waypoint> currentQueue = driverAppService.listToQueue(currentList);
 
-        Waypoint firstPoint = currentQueue.peek();
-        firstPoint.setHasVisited(true);
-        firstPoint.setDeliveryStatus(DeliveryStatus.COMPLETED);
-        waypointService.updateWaypoint(firstPoint);
+        Waypoint firstWaypoint = currentQueue.peek();
+        firstWaypoint.setHasVisited(true);
+        firstWaypoint.setDeliveryStatus(DeliveryStatus.COMPLETED);
+        waypointService.updateWaypoint(firstWaypoint);
+        driverAppService.removeFirstWaypoint(currentQueue);
+        List<Waypoint> updatedList = consigneeAppService.queueToList(currentQueue);
+        if(updatedList.size() >= 5) {
+            consigneeAppStartup(updatedList.get(4));
+        }else{
+            int size = updatedList.size();
+            consigneeAppStartup(updatedList.get(size - 1));
+        }
 
-        driverAppService.updatedDeliveryQueue(currentQueue); //B C D E F
         return currentQueue;
     }
 
@@ -72,8 +79,8 @@ public class AppController {
 
     // Consignee
     @GetMapping("/consigneeAppStartup")
-    public List<Waypoint> consigneeAppStartup(List<Waypoint> nextWaypoints) {
-        return null;
+    public List<Waypoint> consigneeAppStartup(Waypoint newestWaypoint) {
+        return consigneeAppService.getRelativeWaypoints(newestWaypoint);
     }
 
 }
