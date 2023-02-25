@@ -2,17 +2,58 @@
 Waypoint:
   type: object
   required:
-    - address
-    - is_completed
+    - w_con_address
+    - w_con_full_name
+    - w_has_visited
+    - w_has_attempted
   properties:
-    address:
-      description: String of the user's address
+    w_con_address:
+      description: String of the consignee's address
       type: String
       example: '3 Kay Siang Road'
-    is_completed:
-      description: Boolean if delivery is completed (delivered/failed)
+    w_con_full_name:
+      description: Name of consignee
+      type: String
+      example: 'John'
+    w_has_visited:
+      description: Boolean if driver has visited the waypoint (delivered/failed)
+      type: Boolean
+    w_has_attempted:
+      description: Boolean if the driver has attempted t
+
+Consignee:
+  type: object
+  required:
+    - user_name
+    - password
+    - name
+    - address
+  properties:
+    user_name:
+      description: username of the Consignee in the app
+      type: String
+      example: 'user001'
+    password:
+      description: password of the Consignee in the app
+      type: String
+      example: "password123"
+    name:
+      description: String of the user's full name
+      type: String
+      example: 'John Doe'
+    address:
+      description: Boolean if driver has visited the waypoint (delivered/failed)
       type: Boolean
 
-# Consignee
+# ConsigneeApp
 
 # Driver
+DriverApp:
+  type: object
+  required:
+    - waypoint_list
+  properties:
+    waypoint_list:
+      type: array
+      items:
+        $ref: 'Waypoint'
