@@ -49,4 +49,9 @@ public class WaypointServiceImpl implements WaypointService{
     public Waypoint updateWaypoint(Waypoint waypoint) {
         return repo.save(waypoint);
     }
+
+    @Override
+    public Waypoint findWaypoint(String address) {
+        return repo.findById(address).get();
+    }
 }

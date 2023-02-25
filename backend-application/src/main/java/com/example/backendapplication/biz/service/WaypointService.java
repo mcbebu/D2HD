@@ -8,6 +8,7 @@ public interface WaypointService {
     public Waypoint saveWaypoint(Waypoint newWaypoint);
     public Waypoint updateWaypoint(Waypoint waypoint);
     public Waypoint getWaypoint(Waypoint waypoint);
+    public Waypoint findWaypoint(String address);
     public List<Waypoint> saveWaypointList(List<Waypoint> waypointList);
     public List<Waypoint> displayWaypointList();
     public void clearWaypointList();
