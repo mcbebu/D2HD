@@ -33,9 +33,9 @@ public class AppController {
 
 
     // Driver
-
     @GetMapping("/convertToQueue")
-    public Queue<Waypoint> convertToQueue(List<Waypoint> initialList) {
+    public Queue<Waypoint> convertToQueue() {
+        System.out.println(waypointList);
         return driverAppService.initialDeliveryQueue(waypointList);
     }
 

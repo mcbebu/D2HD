@@ -14,7 +14,10 @@ public class DriverAppServiceImpl implements DriverAppService {
     // convert from list to queue to use pop method
     @Override
     public Queue<Waypoint> initialDeliveryQueue(List<Waypoint> sortedWaypoints) {
-        return new LinkedList<>(sortedWaypoints);
+        Queue<Waypoint> queue = new LinkedList<>();
+        queue.addAll(sortedWaypoints);
+
+        return queue;
     }
 
     // performs the popping
