@@ -3,9 +3,12 @@ package com.example.backendapplication.biz.service;
 import com.example.backendapplication.model.Waypoint;
 
 import java.util.List;
-import java.util.Queue;
 
 public interface WaypointService {
-    public Waypoint createWaypoint(Waypoint newWaypoint);
+    public Waypoint saveWaypoint(Waypoint newWaypoint);
+    public Waypoint updateWaypoint(Waypoint waypoint);
+    public Waypoint getWaypoint(Waypoint waypoint);
     public List<Waypoint> saveWaypointList(List<Waypoint> waypointList);
+    public List<Waypoint> displayWaypointList();
+    public void clearWaypointList();
 }
