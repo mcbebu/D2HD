@@ -37,7 +37,7 @@ const Home = () => {
   const photos = [ run_2.src, run_3.src, run_4.src, run_5.src, run_6.src ];
   const [delivery, setDelivery] = useState([]);
   useEffect(() => {
-    DeliveryService.getWayPointList().then((res) => {
+    DeliveryService.getUpdatedDeliveryList().then((res) => {
       setDelivery(res.data);
     });
   }, []);
