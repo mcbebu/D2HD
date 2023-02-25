@@ -11,9 +11,12 @@ import java.util.Queue;
 
 @Service
 public class DriverAppServiceImpl implements DriverAppService {
+    @Autowired
+    private WaypointServiceImpl waypointService;
+
     // convert from list to queue to use pop method
     @Override
-    public Queue<Waypoint> initialDeliveryQueue(List<Waypoint> sortedWaypoints) {
+    public Queue<Waypoint> listToQueue(List<Waypoint> sortedWaypoints) {
         Queue<Waypoint> queue = new LinkedList<>();
         queue.addAll(sortedWaypoints);
 
@@ -26,4 +29,12 @@ public class DriverAppServiceImpl implements DriverAppService {
         initialQueue.remove();
         return initialQueue;
     }
+
+    @Override
+    public List<Waypoint> saveWaypoints(List<Waypoint> routeForTheDay) {
+        waypointService.saveWaypointList(routeForTheDay);
+        return waypointService.displayWaypointList();
+    }
+
+
 }

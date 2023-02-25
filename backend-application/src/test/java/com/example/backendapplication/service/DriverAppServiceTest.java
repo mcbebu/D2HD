@@ -1,6 +1,7 @@
 package com.example.backendapplication.service;
 
 import com.example.backendapplication.biz.impl.DriverAppServiceImpl;
+import com.example.backendapplication.biz.impl.WaypointServiceImpl;
 import com.example.backendapplication.enumeration.DeliveryStatus;
 import com.example.backendapplication.model.Waypoint;
 import org.junit.jupiter.api.Assertions;
@@ -17,6 +18,8 @@ import java.util.Queue;
 public class DriverAppServiceTest {
     @Autowired
     private DriverAppServiceImpl driverAppService;
+    @Autowired
+    private WaypointServiceImpl waypointService;
 
     List<Waypoint> waypointList = Arrays.asList(
             new Waypoint("Address A", "Harry Potter", false, DeliveryStatus.PENDING),
@@ -27,7 +30,7 @@ public class DriverAppServiceTest {
 
     @Test
     public void testDeliveryQueue() {
-        Queue<Waypoint> actual = driverAppService.initialDeliveryQueue(waypointList);
+        Queue<Waypoint> actual = driverAppService.listToQueue(waypointList);
         boolean isQueue = actual instanceof Queue<Waypoint>;
 
         Assertions.assertEquals(true, isQueue);
@@ -43,7 +46,7 @@ public class DriverAppServiceTest {
 
     @Test
     public void testUpdatedDeliveryQueue() {
-        Queue<Waypoint> initialQueue = driverAppService.initialDeliveryQueue(waypointList);
+        Queue<Waypoint> initialQueue = driverAppService.listToQueue(waypointList);
         // driver presses accept or fail (to be implemented)
         // call updatedDeliveryQueue
         Queue<Waypoint> updatedQueue = driverAppService.updatedDeliveryQueue(initialQueue);
@@ -64,6 +67,23 @@ public class DriverAppServiceTest {
         // store the addys for updatedDeliveryQueue in another list
         ArrayList<String> testList4 = new ArrayList<>();
         updatedQueue.forEach(waypoint -> testList4.add(waypoint.getConsigneeAddress()));
+
+    }
+
+    @Test
+    public void testSaveWaypoints() {
+        waypointService.clearWaypointList();
+
+        List<Waypoint> savedWaypoints = driverAppService.saveWaypoints(waypointList);
+        List<String> expectedAdresses = new ArrayList<>();
+        waypointList.forEach(waypoint -> expectedAdresses.add(waypoint.getConsigneeAddress()));
+
+        List<String> actualAddresses = new ArrayList<>();
+        savedWaypoints.forEach(waypoint -> actualAddresses.add(waypoint.getConsigneeAddress()));
+
+        Assertions.assertEquals(expectedAdresses, actualAddresses);
+
+        waypointService.clearWaypointList();
 
     }
 }

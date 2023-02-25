@@ -17,7 +17,7 @@ public class WaypointServiceImpl implements WaypointService{
     private WaypointRepository repo;
 
     @Override
-    public Waypoint createWaypoint(Waypoint newWaypoint) {
+    public Waypoint saveWaypoint(Waypoint newWaypoint) {
         repo.save(newWaypoint);
 
         return newWaypoint;
@@ -28,5 +28,25 @@ public class WaypointServiceImpl implements WaypointService{
         repo.saveAll(waypointList);
 
         return repo.findAll();
+    }
+
+    @Override
+    public List<Waypoint> displayWaypointList() {
+        return repo.findAll();
+    }
+
+    @Override
+    public void clearWaypointList() {
+        repo.deleteAll();
+    }
+
+    @Override
+    public Waypoint getWaypoint(Waypoint waypoint) {
+        return repo.findById(waypoint.getConsigneeAddress()).get();
+    }
+
+    @Override
+    public Waypoint updateWaypoint(Waypoint waypoint) {
+        return repo.save(waypoint);
     }
 }

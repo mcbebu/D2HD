@@ -1,11 +1,9 @@
 package com.example.backendapplication.service;
 
-import com.example.backendapplication.biz.impl.DriverAppServiceImpl;
 import com.example.backendapplication.biz.impl.WaypointServiceImpl;
 import com.example.backendapplication.enumeration.DeliveryStatus;
 import com.example.backendapplication.model.Waypoint;
 import com.example.backendapplication.repo.WaypointRepository;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +40,6 @@ public class WaypointServiceTest {
     @Test
     public void testCreateWaypoint() {
         Waypoint newWaypoint = new Waypoint("Address A", "Harry Potter", false, DeliveryStatus.PENDING);
-        waypointService.createWaypoint(newWaypoint);
+        waypointService.saveWaypoint(newWaypoint);
     }
 }

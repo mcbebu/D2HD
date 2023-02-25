@@ -21,7 +21,7 @@ public class WaypointController {
 
     @PostMapping("/createWaypoint")
     public Waypoint createWaypoint() {
-        waypointService.createWaypoint(test);
+        waypointService.saveWaypoint(test);
         return test;
     }
 }

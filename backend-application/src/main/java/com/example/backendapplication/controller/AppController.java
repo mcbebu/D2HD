@@ -2,6 +2,7 @@ package com.example.backendapplication.controller;
 
 import com.example.backendapplication.biz.impl.ConsigneeAppServiceImpl;
 import com.example.backendapplication.biz.impl.DriverAppServiceImpl;
+import com.example.backendapplication.biz.impl.WaypointServiceImpl;
 import com.example.backendapplication.enumeration.DeliveryStatus;
 import com.example.backendapplication.model.Waypoint;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.util.Queue;
 @RestController
 @RequestMapping("/api/driverApp")
 public class AppController {
+    @Autowired
+    private WaypointServiceImpl waypointService;
     @Autowired
     private DriverAppServiceImpl driverAppService;
 
@@ -38,7 +41,8 @@ public class AppController {
     // Driver
     @GetMapping("/driverStartUp")
     public Queue<Waypoint> driverStartUp() {
-        return driverAppService.initialDeliveryQueue(waypointList);
+        driverAppService.saveWaypoints(waypointList);
+        return driverAppService.listToQueue(waypointList);
     }
 
     /**
@@ -48,18 +52,22 @@ public class AppController {
      * @param currentList
      * @return The updated delivery queue with the first element removed
      */
-    @GetMapping("/updateQueue")
+    @PostMapping("/updateQueue")
     public Queue<Waypoint> updateQueue(@RequestBody List<Waypoint> currentList) {
-        Queue<Waypoint> currentQueue = driverAppService.initialDeliveryQueue(currentList);
-        driverAppService.updatedDeliveryQueue(currentQueue); //B C D E F
+        Queue<Waypoint> currentQueue = driverAppService.listToQueue(currentList);
 
-        List<Waypoint> nextWaypoints = consigneeAppService.getNextWaypoints(currentQueue);
+        Waypoint firstPoint = currentQueue.peek();
+        firstPoint.setHasVisited(true);
+        firstPoint.setDeliveryStatus(DeliveryStatus.COMPLETED);
+        waypointService.updateWaypoint(firstPoint);
+
+        driverAppService.updatedDeliveryQueue(currentQueue); //B C D E F
         return currentQueue;
     }
 
     @GetMapping("/convertToQueue")
     public Queue<Waypoint> convertToQueue(@RequestBody  List<Waypoint> initialList) {
-        return driverAppService.initialDeliveryQueue(initialList);
+        return driverAppService.listToQueue(initialList);
     }
 
     // Consignee
