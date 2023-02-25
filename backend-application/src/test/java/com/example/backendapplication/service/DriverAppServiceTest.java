@@ -1,6 +1,6 @@
 package com.example.backendapplication.service;
 
-import com.example.backendapplication.biz.impl.WaypointServiceImpl;
+import com.example.backendapplication.biz.impl.DriverAppServiceImpl;
 import com.example.backendapplication.model.Waypoint;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Queue;
 
 @SpringBootTest
-public class WaypointServiceTest {
+public class DriverAppServiceTest {
     @Autowired
-    private WaypointServiceImpl waypointService;
+    private DriverAppServiceImpl driverAppService;
 
     List<Waypoint> waypointList = Arrays.asList(
             new Waypoint("Address A", false),
@@ -26,7 +26,7 @@ public class WaypointServiceTest {
 
     @Test
     public void testDeliveryQueue() {
-        Queue<Waypoint> actual = waypointService.initialDeliveryQueue(waypointList);
+        Queue<Waypoint> actual = driverAppService.initialDeliveryQueue(waypointList);
         boolean isQueue = actual instanceof Queue<Waypoint>;
 
         Assertions.assertEquals(true, isQueue);
@@ -42,10 +42,10 @@ public class WaypointServiceTest {
 
     @Test
     public void testUpdatedDeliveryQueue() {
-        Queue<Waypoint> initialQueue = waypointService.initialDeliveryQueue(waypointList);
+        Queue<Waypoint> initialQueue = driverAppService.initialDeliveryQueue(waypointList);
         // driver presses accept or fail (to be implemented)
         // call updatedDeliveryQueue
-        Queue<Waypoint> updatedQueue = waypointService.updatedDeliveryQueue(initialQueue);
+        Queue<Waypoint> updatedQueue = driverAppService.updatedDeliveryQueue(initialQueue);
 
         // test size of updatedDeliveryQueue < initialQueue by 1
         initialQueue.forEach(waypoint -> {

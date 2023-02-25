@@ -22,15 +22,4 @@ public class WaypointServiceImpl implements WaypointService{
 
         return newWaypoint;
     }
-
-    @Override
-    public Queue<Waypoint> initialDeliveryQueue(List<Waypoint> sortedWaypoints) {
-        return new LinkedList<>(sortedWaypoints);
-    }
-
-    @Override
-    public Queue<Waypoint> updatedDeliveryQueue(Queue<Waypoint> initialQueue) {
-        initialQueue.remove();
-        return initialQueue;
-    }
 }
