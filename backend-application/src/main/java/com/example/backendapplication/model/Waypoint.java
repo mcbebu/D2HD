@@ -10,10 +10,10 @@ import jakarta.persistence.Table;
 @Table(name = "waypoint")
 public class Waypoint {
     @Id
-    @Column(name = "w_address")
+    @Column(name = "w_con_address")
     private String consigneeAddress;
 
-    @Column(name = "w_con_full_name")
+    @Column(name = "w_con_fullname")
     private String consigneeName;
 
     @Column(name = "w_has_visited")
