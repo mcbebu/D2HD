@@ -1,26 +1,26 @@
 {
-    "name": "frontend",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "build": "npx next build",
-        "start": "npx next start",
-        "lint": "npx next lint",
-        "dev": "npx next dev",
-        "clean": "echo rm -rf .next && echo rm -rf node_modules",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "@chakra-ui/icons": "^2.0.17",
-        "@chakra-ui/react": "^2.5.1",
-        "@react-md/icon": "^5.1.3",
-        "axios": "^1.3.4",
-        "next": "^13.2.1",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-icons": "^4.7.1"
-    }
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx next build",
+    "start": "npx next start",
+    "lint": "npx next lint",
+    "dev": "npx next dev",
+    "clean": "sudo rm -rf .next && sudo rm -rf node_modules",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@chakra-ui/icons": "^2.0.17",
+    "@chakra-ui/react": "^2.5.1",
+    "@react-md/icon": "^5.1.3",
+    "axios": "^1.3.4",
+    "next": "^13.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1"
+  }
 }
