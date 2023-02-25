@@ -1,6 +1,7 @@
 package com.example.backendapplication.service;
 
 import com.example.backendapplication.biz.impl.DriverAppServiceImpl;
+import com.example.backendapplication.enumeration.DeliveryStatus;
 import com.example.backendapplication.model.Waypoint;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,11 +19,11 @@ public class DriverAppServiceTest {
     private DriverAppServiceImpl driverAppService;
 
     List<Waypoint> waypointList = Arrays.asList(
-            new Waypoint("Address A", false),
-            new Waypoint("Address B", false),
-            new Waypoint("Address C", false),
-            new Waypoint("Address D", false),
-            new Waypoint("Address E", false));
+            new Waypoint("Address A", false, DeliveryStatus.PENDING),
+            new Waypoint("Address B", false, DeliveryStatus.PENDING),
+            new Waypoint("Address C", false, DeliveryStatus.PENDING),
+            new Waypoint("Address D", false, DeliveryStatus.PENDING),
+            new Waypoint("Address E", false, DeliveryStatus.PENDING));
 
     @Test
     public void testDeliveryQueue() {
