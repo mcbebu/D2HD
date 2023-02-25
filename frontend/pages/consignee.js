@@ -27,27 +27,28 @@ const Consignee = () => {
       <Flex width="100%" flexDir="column" className="Content Parent">
         <Navbar />
         <Home />
+        <Tracking />
       </Flex>
     </Flex>
   );
 };
 const Home = () => {
   const photos = [run_2.src, run_3.src, run_4.src, run_5.src, run_6.src];
-  const [delivery, setDelivery] = useState([]);
-  useEffect(() => {
-    DeliveryService.getUpdatedDeliveryList().then((res) => {
-      setDelivery(res.data);
-    });
-  }, []);
-  console.log(delivery);
-  const getTrackingImage = () => {
-    for (let i = delivery.length - 1; i > 0; i--) {
-      if (delivery[i].is_completed === true) {
-        return <Image src={photos[i]} />;
-      }
-    }
-    return <Image src={run_1.src} />;
-  };
+  // const [delivery, setDelivery] = useState([]);
+  // useEffect(() => {
+  //   DeliveryService.getUpdatedDeliveryList().then((res) => {
+  //     setDelivery(res.data);
+  //   });
+  // }, []);
+  // console.log(delivery);
+  // const getTrackingImage = () => {
+  //   for (let i = delivery.length - 1; i > 0; i--) {
+  //     if (delivery[i].is_completed === true) {
+  //       return <Image src={photos[i]} />;
+  //     }
+  //   }
+  //   return <Image src={run_1.src} />;
+  // };
 
   return (
     <Flex
@@ -66,7 +67,7 @@ const Home = () => {
         <Flex
           marginTop={MARGIN}
           w="50rem"
-          height="70rem"
+          height="60rem"
           background="#fff"
           borderRadius="20px"
           flexDir="column"
@@ -81,12 +82,47 @@ const Home = () => {
             Tracking History
           </Heading>
           <Flex p="2rem" direction="column">
-            {getTrackingImage()}
+            {/* {getTrackingImage()} */}
           </Flex>
           <Flex justify="center" flexDir="center">
             <Text color="#000">Test</Text>
             <Button colorScheme="face">Fail</Button>
           </Flex>
+        </Flex>
+      </Flex>
+    </Flex>
+  );
+};
+
+const Tracking = () => {
+  return (
+    <Flex
+      className="Tracking Parent"
+      id="top"
+      minWidth="100%"
+      direction="column"
+      backgroundColor="#E8EDF0"
+    >
+      <Flex
+        width="100%"
+        flexDir="column"
+        className="Content Parent"
+        alignItems="center"
+      >
+        <Flex
+          marginTop={MARGIN}
+          w="50rem"
+          height="60rem"
+          background="#fff"
+          borderRadius="20px"
+          flexDir="column"
+          className="content"
+        >
+          <Heading color="#000" padding="2rem">
+            Tracking History
+          </Heading>
+          <Divider colorScheme="" />
+          <Text fontWeight="bold">26 Feb 2021, by 10:00 pm</Text>
         </Flex>
       </Flex>
     </Flex>
