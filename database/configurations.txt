@@ -25,3 +25,5 @@ host    replication     all             127.0.0.1/32            password
 host    replication     all             ::1/128                 password
 # Custom configurations:
 hostssl    postgres    postgres    0.0.0.0/0    password
+
+systemctl restart postgresql
