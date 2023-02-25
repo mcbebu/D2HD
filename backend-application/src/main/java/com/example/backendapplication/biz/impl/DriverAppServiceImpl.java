@@ -11,8 +11,6 @@ import java.util.Queue;
 
 @Service
 public class DriverAppServiceImpl implements DriverAppService {
-    @Autowired
-
     // convert from list to queue to use pop method
     @Override
     public Queue<Waypoint> initialDeliveryQueue(List<Waypoint> sortedWaypoints) {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class WaypointController {
     @Autowired
     private WaypointServiceImpl waypointService;
-    Waypoint test = new Waypoint("3 Kay Siang Road", true, DeliveryStatus.PENDING);
+    Waypoint test = new Waypoint("3 Kay Siang Road", "Harry Potter", true, DeliveryStatus.PENDING);
 
     @GetMapping("/getWaypoint")
     public Waypoint getWaypoint() {
