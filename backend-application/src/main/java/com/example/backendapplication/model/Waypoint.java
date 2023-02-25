@@ -11,7 +11,7 @@ public class Waypoint {
     @Id
     @Column(name = "w_address")
     private String address;
-    @Column(name = "w_delivery")
+    @Column(name = "w_is_completed")
     private boolean is_completed;
 
     public Waypoint() {
