@@ -1,5 +1,19 @@
 # D2HD
 
+# Dependencies
+- Node 16
+- Java 17
+- React Native 18
+- PostgreSQL
+
+# Frameworks
+## Backend
+- Springboot
+
+## Frontend
+- React
+- NextJS
+
 ## Brief
 
 The illustration is shown as a graph. Consignee receives a visualization of 
@@ -31,12 +45,6 @@ Instead, the consignee's web application will simply display:
   Your order is out for delivery.
 
 ```
-
-## Frontend
-React.
-
-## Backend
-Spring Boot.
 
 [//]: # (The api is categorized into two services, namely)
 
