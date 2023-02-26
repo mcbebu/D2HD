@@ -1,0 +1,22 @@
+# Common
+Waypoint:
+  type: object
+  required:
+    - w_con_address
+    - w_con_full_name
+    - w_has_visited
+    - w_has_attempted
+  properties:
+    w_con_address:
+      description: String of the consignee's address
+      type: String
+      example: '3 Kay Siang Road'
+    w_con_full_name:
+      description: Name of consignee
+      type: String
+      example: 'John'
+    w_has_visited:
+      description: Boolean if driver has visited the waypoint (delivered/failed)
+      type: Boolean
+    w_has_attempted:
+      description: The string of an Enum which determines the delivery status

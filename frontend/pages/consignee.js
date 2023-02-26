@@ -25,6 +25,7 @@ import run_3 from "../public/ninja_run/3.png";
 import run_4 from "../public/ninja_run/4.png";
 import run_5 from "../public/ninja_run/5.png";
 import run_6 from "../public/ninja_run/6.png";
+import run_7 from "../public/ninja_run/7.png";
 import DeliveryService from "../api/delivery";
 const Consignee = () => {
   return (
@@ -40,7 +41,7 @@ const Consignee = () => {
 const Home = () => {
   const photos = [run_2.src, run_3.src, run_4.src, run_5.src, run_6.src];
   const [delivery, setDelivery] = useState([]);
-  const time = 50;
+  let time = "";
   useEffect(() => {
     DeliveryService.clusterUpdate().then((res) => {
       setDelivery(res.data);
@@ -110,16 +111,22 @@ const Home = () => {
     //check for more than 4 boolean
     else if (delivery.length > 4) {
       if (delivery[0].hasVisited === false) {
+        time = ">60";
         return <Image src={run_1.src} w="550px" alignSelf="center" />;
       } else if (delivery[1].hasVisited === false) {
+        time = "50";
         return <Image src={photos[0]} w="550px" alignSelf="center" />;
       } else if (delivery[2].hasVisited === false) {
+        time = "40";
         return <Image src={photos[1]} w="550px" alignSelf="center" />;
       } else if (delivery[3].hasVisited === false) {
+        time = "30";
         return <Image src={photos[2]} w="550px" alignSelf="center" />;
       } else if (delivery[4].hasVisited === false) {
+        time = "20";
         return <Image src={photos[3]} w="550px" alignSelf="center" />;
       } else {
+        time = "10";
         return <Image src={photos[4]} w="550px" alignSelf="center" />;
       }
     }
@@ -141,9 +148,6 @@ const Home = () => {
         className="Content Parent"
         alignItems="center"
       >
-        <Heading marginY="5vh" color="#000" px="2rem">
-          Draco Malfoy
-        </Heading>
         <Flex
           w="50rem"
           background="#fff"
@@ -176,7 +180,7 @@ const Home = () => {
           </Flex>
 
           <Heading color="#000" px="2rem" py="1rem">
-            Tracking History
+            Your Order Status - Draco Malfoy
           </Heading>
           <Flex direction="column" justifyContent="center">
             {getTrackingImage()}
