@@ -63,11 +63,6 @@ public class AppController {
         return currentQueue;
     }
 
-    @GetMapping("driverApp/convertToQueue")
-    public Queue<Waypoint> convertToQueue(List<Waypoint> initialList) {
-        return driverAppService.listToQueue(initialList);
-    }
-
     // Consignee
     @GetMapping("consigneeApp/consigneeAppStartup")
     public List<Waypoint> consigneeAppStartup() {

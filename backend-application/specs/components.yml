@@ -1,22 +1,78 @@
+swagger: "2.0"
+info:
+  version: "0.1.0"
+  title: "API of DriverApp & ConsigneeApp"
+
+host: localhost:8080
+
+schemes:
+  - "http"
+
+paths:
+  /api/driverApp/driverStartUp:
+    get:
+      summary: "Generates and saves the list of deliveries on the driver app in the database"
+      responses:
+        201:
+          description: "successful operation"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Waypoint'
+
+  /api/driverApp/updateQueue:
+    post:
+      summary: "Updates and dequeues first waypoint from list when driver visits a waypoint"
+      parameters:
+        - in: header
+          name: 'InitialList'
+          description: 'The last to be dequeued and returned to caller. Fields of dequeued waypoints are updated in the db'
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Waypoint'
+      responses:
+        201:
+          description: "successful operation"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Waypoint'
+
+  /api/consigneeApp/consigneeAppStartup:
+    get:
+      summary: "Generates and updates the previous 4 waypoints for a specific waypoint"
+      responses:
+        201:
+          description: "successful operation"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Waypoint'
+
 # Common
-Waypoint:
-  type: object
-  required:
-    - w_con_address
-    - w_con_full_name
-    - w_has_visited
-    - w_has_attempted
-  properties:
-    w_con_address:
-      description: String of the consignee's address
-      type: String
-      example: '3 Kay Siang Road'
-    w_con_full_name:
-      description: Name of consignee
-      type: String
-      example: 'John'
-    w_has_visited:
-      description: Boolean if driver has visited the waypoint (delivered/failed)
-      type: Boolean
-    w_has_attempted:
-      description: The string of an Enum which determines the delivery status
+definitions:
+  Waypoint:
+    type: object
+    required:
+      - w_con_address
+      - w_con_full_name
+      - w_has_visited
+      - w_has_attempted
+    properties:
+      w_con_address:
+        description: String of the consignee's address
+        type: string
+        example: '3 Kay Siang Road'
+      w_con_full_name:
+        description: Name of consignee
+        type: string
+        example: 'John'
+      w_has_visited:
+        description: Boolean if driver has visited the waypoint (delivered/failed)
+        type: boolean
+      w_has_attempted:
+        description: The string of an Enum which determines the delivery status
+        type: string
+        example: PENDING, COMPLETED, FAIL, CANCELLED
